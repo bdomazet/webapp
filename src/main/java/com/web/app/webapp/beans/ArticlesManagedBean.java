@@ -25,6 +25,7 @@ public class ArticlesManagedBean implements Serializable {
     private String articleName = null;
     private int articleAmount = 0;
     private double articlePrice = 0.0;
+    private String bill;
 
     @Inject
     ArticlesFacadeLocal articlesFacadeLocal;
@@ -111,19 +112,18 @@ public class ArticlesManagedBean implements Serializable {
     }
 
     public String buy() {
-        String bill;
         double articleTotalPrice = 0.0;
         double totalPrice = 0.0;
         for (Articles item : _cart) {
             double price = item.getPrice();
             double amountDouble = Double.parseDouble(item.getAmount());
             articleTotalPrice = price * amountDouble;
-            bill = item.getId() + " " + item.getName() + " " + item.getAmount() + " " + articleTotalPrice;
+            bill = item.getId().toString() + " " + item.getName() + " " + item.getAmount() + " " + articleTotalPrice;
             totalPrice += articleTotalPrice;
         }
         Date date = new Date();
         Bill billInsert = new Bill();
-        billInsert.setBillContent("TEST TEST");
+        billInsert.setBillContent(bill);
         billInsert.setCreatedAt(date);
         billInsert.setTotalPrice(totalPrice);
         billFacadeLocal.create(billInsert);

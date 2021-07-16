@@ -25,6 +25,8 @@ public interface UsersFacadeLocal {
     Users find(Object id);
 
     List<Users> findAll();
+    
+    public Users findByUsername(String username);
 
     List<Users> findRange(int[] range);
 

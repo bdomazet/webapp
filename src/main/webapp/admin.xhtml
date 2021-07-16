@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Admin Page</title>
+    </h:head>
+    <h:body>
+        <h1>Admin Page</h1>
+        <h:form>
+            <h:dataTable value="#{articlesManagedBean.articlesList}" var="articles">
+                <h:column>
+                    <f:facet name="header">Id</f:facet>
+                        #{articles.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Name</f:facet>
+                        #{articles.name}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Amount</f:facet>
+                        #{articles.amount}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Price per unit</f:facet>
+                        #{articles.price}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Action</f:facet>
+                    <h:commandButton value="Update" action="article-update"/>
+                    <h:commandButton value="Delete" action="#{articlesManagedBean.removeArticle(articles.id)}"/>
+                </h:column>
+
+            </h:dataTable>
+            <br></br>
+
+            <h:commandButton value="New Article" action="article-add"/>
+            <h:commandButton value="Index" action="index"/>
+            <br></br>
+            <br></br>
+            
+            Register New User
+            <h:commandButton value="Register" action="user-register" />
+
+            <br></br>
+        </h:form>
+    </h:body>
+</html>

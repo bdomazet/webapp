@@ -6,9 +6,11 @@
 package com.web.app.webapp.entity.facade;
 
 import com.web.app.webapp.entity.Users;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,5 +30,13 @@ public class UsersFacade extends AbstractFacade<Users> implements UsersFacadeLoc
     public UsersFacade() {
         super(Users.class);
     }
-    
+
+    @Override
+    public Users findByUsername(String username) {
+        Query query = em.createNamedQuery("Users.findByUsername");
+        query.setParameter("username", username);
+        List resultList = query.getResultList();
+        return resultList.isEmpty() ? null : (Users) resultList.iterator().next();
+    }
+
 }

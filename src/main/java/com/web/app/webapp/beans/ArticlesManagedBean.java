@@ -21,6 +21,10 @@ public class ArticlesManagedBean implements Serializable {
     private List<Articles> _cart;
     private List<Bill> _bills;
     private int amountTemp;
+    private Integer articleId = null;
+    private String articleName = null;
+    private int articleAmount = 0;
+    private double articlePrice = 0.0;
 
     @Inject
     ArticlesFacadeLocal articlesFacadeLocal;
@@ -62,12 +66,48 @@ public class ArticlesManagedBean implements Serializable {
         this._bills = _bills;
     }
 
+    public Integer getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
+    }
+
+    public String getArticleName() {
+        return articleName;
+    }
+
+    public void setArticleName(String articleName) {
+        this.articleName = articleName;
+    }
+
+    public int getArticleAmount() {
+        return articleAmount;
+    }
+
+    public void setArticleAmount(int articleAmount) {
+        this.articleAmount = articleAmount;
+    }
+
+    public double getArticlePrice() {
+        return articlePrice;
+    }
+
+    public void setArticlePrice(double articlePrice) {
+        this.articlePrice = articlePrice;
+    }
+
     public String addArticle(Integer articleId) {
         Articles articleTemp = articlesFacadeLocal.find(articleId);
         String amount = amountTemp + "";
         articleTemp.setAmount(amount);
         _cart.add(articleTemp);
         return "";
+    }
+
+    public String login() {
+        return "login";
     }
 
     public String buy() {
@@ -87,9 +127,33 @@ public class ArticlesManagedBean implements Serializable {
         billFacadeLocal.create(billInsert);
         return "bought";
     }
-    
-    public String login(){
-        return "login";
+
+    public String addArticle() {
+        String articleAmountString = articleAmount + "";
+        Articles articleTemp = new Articles(null, articleName, articleAmountString, articlePrice);
+        articlesFacadeLocal.create(articleTemp);
+        init();
+        return "write";
+    }
+
+    public String removeArticle(Integer articleId) {
+        Articles articleTemp = articlesFacadeLocal.find(articleId);
+        articlesFacadeLocal.remove(articleTemp);
+        init();
+        return "write";
+    }
+
+    public String updateArticle() {
+        Articles articleTemp = articlesFacadeLocal.find(articleId);
+        String articleAmountString = articleAmount + "";
+        if (articleTemp != null) {
+            articleTemp.setName(articleName);
+            articleTemp.setAmount(articleAmountString);
+            articleTemp.setPrice(articlePrice);
+            articlesFacadeLocal.edit(articleTemp);
+            init();
+        }
+        return "write";
     }
 
 }

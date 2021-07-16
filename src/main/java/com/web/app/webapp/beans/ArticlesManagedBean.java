@@ -89,7 +89,7 @@ public class ArticlesManagedBean implements Serializable {
     }
     
     public String login(){
-        return "";
+        return "login";
     }
 
 }

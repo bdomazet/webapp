@@ -5,7 +5,7 @@ import com.web.app.webapp.entity.Bill;
 import com.web.app.webapp.entity.facade.ArticlesFacadeLocal;
 import com.web.app.webapp.entity.facade.BillFacadeLocal;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -18,7 +18,7 @@ import javax.inject.Named;
 public class ArticlesManagedBean implements Serializable {
 
     private List<Articles> _articlesList;
-    private List<Articles> _cart;
+    private List<Articles> _cart = new ArrayList<>();
     private List<Bill> _bills;
     private int amountTemp;
     private Integer articleId = null;
@@ -111,7 +111,7 @@ public class ArticlesManagedBean implements Serializable {
     }
 
     public String buy() {
-        String bill = null;
+        String bill;
         double articleTotalPrice = 0.0;
         double totalPrice = 0.0;
         for (Articles item : _cart) {
@@ -122,8 +122,10 @@ public class ArticlesManagedBean implements Serializable {
             totalPrice += articleTotalPrice;
         }
         Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-        Bill billInsert = new Bill(null, bill, totalPrice, timestamp);
+        Bill billInsert = new Bill();
+        billInsert.setBillContent("TEST TEST");
+        billInsert.setCreatedAt(date);
+        billInsert.setTotalPrice(totalPrice);
         billFacadeLocal.create(billInsert);
         return "bought";
     }
@@ -133,14 +135,14 @@ public class ArticlesManagedBean implements Serializable {
         Articles articleTemp = new Articles(null, articleName, articleAmountString, articlePrice);
         articlesFacadeLocal.create(articleTemp);
         init();
-        return "write";
+        return "index";
     }
 
     public String removeArticle(Integer articleId) {
         Articles articleTemp = articlesFacadeLocal.find(articleId);
         articlesFacadeLocal.remove(articleTemp);
         init();
-        return "write";
+        return "index";
     }
 
     public String updateArticle() {

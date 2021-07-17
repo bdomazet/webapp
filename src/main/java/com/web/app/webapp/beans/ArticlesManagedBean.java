@@ -102,6 +102,8 @@ public class ArticlesManagedBean implements Serializable {
     public String addArticle(Integer articleId) {
         Articles articleTemp = articlesFacadeLocal.find(articleId);
         String amount = amountTemp + "";
+        
+        Integer amountInt = Integer.parseInt(articleTemp.getAmount());
         articleTemp.setAmount(amount);
         _cart.add(articleTemp);
         return "";
